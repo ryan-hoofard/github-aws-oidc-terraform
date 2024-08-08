@@ -1,3 +1,4 @@
+name: terraform aws oidc workflow
 on:
   push:
     branches:
