@@ -16,8 +16,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.7.0
@@ -26,6 +26,6 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Sts GetCallerIdentity
+      - name: Terraform Apply
         run: |
-          aws sts get-caller-identity
+          terraform apply --auto-approve
