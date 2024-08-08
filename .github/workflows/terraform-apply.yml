@@ -26,6 +26,8 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Terraform Apply
-        run: |
-          terraform apply --auto-approve
+      - name: Terraform Init
+        run: terraform init
+
+      # - name: Terraform Apply
+      #   run: terraform apply --auto-approve
