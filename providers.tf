@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "ryanh-github-oidc-terraform-test"
-    key    = ""
+    key    = "terraform.tfstate"
     region = "us-west-2"
   }
 }
