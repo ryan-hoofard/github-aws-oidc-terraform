@@ -38,7 +38,7 @@ jobs:
         run: sed -i 's/-<environment>/-${{ inputs.environment }}/g' providers.tf
 
       - name: set bucket path based on repo name
-        run: sed -i "s/<path>/$(basename -s -terraform ${{ github.event.repository.name }})/g" providers.tf
+        run: sed -i "s/<repo>/$(basename -s -terraform ${{ github.event.repository.name }})/g" providers.tf
       
       - name: cat providers.tf
         run: cat providers.tf
