@@ -39,7 +39,7 @@ jobs:
           echo "environment=${{ inputs.environment }}" >> terraform.tfvars
 
       - name: Terraform Init
-        run: -backend-config=backend.conf
+        run: terraform init -backend-config=backend.conf
 
       - name: Terraform Plan
         run: terraform plan
