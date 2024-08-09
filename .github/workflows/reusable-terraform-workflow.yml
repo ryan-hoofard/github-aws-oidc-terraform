@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  formatting:
+  deploy:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
