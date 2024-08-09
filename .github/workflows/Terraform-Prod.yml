@@ -10,6 +10,9 @@ on:
 jobs:
   prod-deploy:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
+    permissions:
+      id-token: write
+      contents: read
     with:
       environment: prod
       region: "us-west-2"

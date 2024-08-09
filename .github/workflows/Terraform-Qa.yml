@@ -10,6 +10,9 @@ on:
 jobs:
   qa-deploy:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
+    permissions:
+      id-token: write
+      contents: read
     with:
       environment: qa
       region: "us-west-2"

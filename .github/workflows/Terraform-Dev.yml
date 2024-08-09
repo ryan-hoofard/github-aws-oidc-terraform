@@ -10,6 +10,9 @@ on:
 jobs:
   dev-deploy:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
+    permissions:
+      id-token: write
+      contents: read
     with:
       environment: dev
       region: "us-west-2"
