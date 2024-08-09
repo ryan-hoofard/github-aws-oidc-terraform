@@ -17,7 +17,8 @@ on:
 
 jobs:
   deploy:
-    environment: ${{ inputs.apply && inputs.environment || 'tfplan' }}
+    # environment: ${{ inputs.apply && inputs.environment || 'tfplan' }}
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,13 +34,13 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ inputs.region }}
 
-      - name: write to tfvars file
-        run: |
-          echo "repo=${{ github.repository }}" >> terraform.tfvars
-          echo "environment=${{ inputs.environment }}" >> terraform.tfvars
+      # - name: write to tfvars file
+      #   run: |
+      #     echo "repo=${{ github.repository }}" >> terraform.tfvars
+      #     echo "environment=${{ inputs.environment }}" >> terraform.tfvars
 
       - name: Terraform Init
-        run: terraform init -backend-config=backend.conf
+        run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
