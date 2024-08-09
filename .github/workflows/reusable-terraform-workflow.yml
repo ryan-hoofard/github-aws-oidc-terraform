@@ -35,7 +35,10 @@ jobs:
           aws-region: ${{ inputs.region }}
 
       - name: set environment specific bucket name in providers.tf
-        run: sed -i 's/-<environment>/-${{ inputs.environment}}/g' providers.tf
+        run: sed -i 's/-<environment>/-${{ inputs.environment }}/g' providers.tf
+
+      - name: set bucket path based on repo name
+        run: sed -i "s/<path>/$(basename -s -terraform ${{ github.event.repository.name }})/g" providers.tf
 
       - name: Terraform Init
         run: terraform init
