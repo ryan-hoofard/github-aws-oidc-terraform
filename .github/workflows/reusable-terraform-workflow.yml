@@ -39,6 +39,9 @@ jobs:
 
       - name: set bucket path based on repo name
         run: sed -i "s/<path>/$(basename -s -terraform ${{ github.event.repository.name }})/g" providers.tf
+      
+      - name: cat providers.tf
+        run: cat providers.tf
 
       - name: Terraform Init
         run: terraform init
