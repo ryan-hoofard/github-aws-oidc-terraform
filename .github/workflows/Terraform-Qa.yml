@@ -1,0 +1,15 @@
+name: terraform aws oidc workflow
+on:
+  push:
+    branches:
+      - qa
+  pull_request:
+    branches:
+      - qa
+
+jobs:
+  qa-deploy:
+    uses: ./.github/workflows/reusable-terraform-workflow.yml
+    with:
+      environment: qa
+      region: "us-west-2"
