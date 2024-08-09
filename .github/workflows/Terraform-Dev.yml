@@ -17,7 +17,8 @@ jobs:
       region: us-west-2
       environment: dev
       apply: false
-    secrets: ${{ secrets.AWS_ROLE_DEV }}
+    secrets: 
+      aws_role: ${{ secrets.AWS_ROLE_DEV }}
 
   dev-apply:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
