@@ -1,4 +1,4 @@
-name: terraform aws oidc workflow
+name: qa terraform w/ oidc
 on:
   push:
     branches:
@@ -8,12 +8,24 @@ on:
       - qa
 
 jobs:
-  qa-deploy:
+  qa-plan:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
     permissions:
       id-token: write
       contents: read
     with:
-      region: "us-west-2"
-    secrets:
-      role: ${{ secrets.AWS_ROLE_QA }}
+      environment: qa
+      region: us-west-2
+      apply: false
+    secrets: ${{ secrets.AWS_ROLE_QA }}
+    
+  qa-apply:
+    uses: ./.github/workflows/reusable-terraform-workflow.yml
+    permissions:
+      id-token: write
+      contents: read
+    with:
+      environment: qa
+      region: us-west-2
+      apply: true
+    secrets: ${{ secrets.AWS_ROLE_QA }}
