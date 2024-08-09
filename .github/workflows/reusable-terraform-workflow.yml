@@ -34,10 +34,8 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ inputs.region }}
 
-      # - name: write to tfvars file
-      #   run: |
-      #     echo "repo=${{ github.repository }}" >> terraform.tfvars
-      #     echo "environment=${{ inputs.environment }}" >> terraform.tfvars
+      - name: set environment specific bucket name in providers.tf
+        run: sed -i 's/-<environment>/-${{ inputs.environment}}/g' providers.tf
 
       - name: Terraform Init
         run: terraform init
