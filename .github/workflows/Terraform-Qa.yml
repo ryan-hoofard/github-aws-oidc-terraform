@@ -18,7 +18,7 @@ jobs:
       region: us-west-2
       apply: false
     secrets: ${{ secrets.AWS_ROLE_QA }}
-    
+
   qa-apply:
     uses: ./.github/workflows/reusable-terraform-workflow.yml
     permissions:
@@ -28,4 +28,5 @@ jobs:
       environment: qa
       region: us-west-2
       apply: true
-    secrets: ${{ secrets.AWS_ROLE_QA }}
+    secrets: 
+      aws_role: ${{ secrets.AWS_ROLE_QA }}

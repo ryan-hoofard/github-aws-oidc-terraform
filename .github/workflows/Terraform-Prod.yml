@@ -28,4 +28,5 @@ jobs:
       environment: prod
       region: us-west-2
       apply: true
-    secrets: ${{ secrets.AWS_ROLE_PROD }}
+    secrets: 
+      aws_role: ${{ secrets.AWS_ROLE_PROD }}
