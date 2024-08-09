@@ -14,6 +14,6 @@ jobs:
       id-token: write
       contents: read
     with:
-      environment: dev
       region: "us-west-2"
-    secrets: inherit
+    secrets:
+      role: ${{ secrets.AWS_ROLE_DEV }}

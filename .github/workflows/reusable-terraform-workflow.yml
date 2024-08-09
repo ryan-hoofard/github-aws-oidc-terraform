@@ -2,12 +2,12 @@ name: terraform aws oidc workflow
 on:
   workflow_call:
     inputs:
-      environment:
-        required: false
-        type: string
       region:
         required: true
         type: string
+    secrets:
+      role:
+        required: true
 
 jobs:
   deploy:
@@ -23,7 +23,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.role }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ inputs.region }}
 
@@ -34,5 +34,5 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/{{ env.environment }}'
+        if: github.ref_name == 'dev' || github.ref_name == 'qa' || github_ref_name == 'prod'
         run: terraform apply --auto-approve

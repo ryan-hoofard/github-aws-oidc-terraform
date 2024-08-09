@@ -14,5 +14,6 @@ jobs:
       id-token: write
       contents: read
     with:
-      environment: qa
       region: "us-west-2"
+    secrets:
+      role: ${{ secrets.AWS_ROLE_QA }}
