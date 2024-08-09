@@ -16,3 +16,4 @@ jobs:
     with:
       environment: dev
       region: "us-west-2"
+    secrets: inherit
