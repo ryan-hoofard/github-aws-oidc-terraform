@@ -44,7 +44,7 @@ jobs:
         run: |
           terraform init \
           -backend-config="bucket=${{ env.BUCKET_NAME }}" \
-          -backend-config="key=${{ env.BUCKET_KEY }}"
+          -backend-config="key=${{ env.BUCKET_KEY }}" \
           -backend-config="region=${{ inputs.region }}"
 
       - name: Terraform Plan
