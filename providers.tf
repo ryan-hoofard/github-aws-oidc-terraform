@@ -1,9 +1,5 @@
 terraform {
-  backend "s3" {
-    bucket = "ryanh-github-oidc-terraform-test-<environment>"
-    key    = "<repo>/terraform.tfstate"
-    region = "us-west-2"
-  }
+  backend "s3" {}
 }
 
 provider "aws" {

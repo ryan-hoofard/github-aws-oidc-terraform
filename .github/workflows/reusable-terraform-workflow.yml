@@ -34,17 +34,18 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ inputs.region }}
 
-      - name: set environment specific bucket name in providers.tf
-        run: sed -i 's/-<environment>/-${{ inputs.environment }}/g' providers.tf
+      - name: set bucket key based on repo name without "-terraform" suffix
+        run: echo "BUCKET_KEY=$(basename -s -terraform ${{ github.event.repository.name }})" >> $GITHUB_ENV
 
-      - name: set bucket path based on repo name
-        run: sed -i "s/<repo>/$(basename -s -terraform ${{ github.event.repository.name }})/g" providers.tf
-      
-      - name: cat providers.tf
-        run: cat providers.tf
+      - name: set bucket name based on environment
+        run: echo "BUCKET_NAME=ryanh-github-oidc-terraform-test-${{ inputs.environment }}" >> $GITHUB_ENV
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          terraform init \
+          -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+          -backend-config="key=${{ env.BUCKET_KEY }}"
+          -backend-config="region=${{ inputs.region }}"
 
       - name: Terraform Plan
         run: terraform plan
