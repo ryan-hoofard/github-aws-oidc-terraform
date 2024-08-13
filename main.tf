@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "ryanh-github-created-bucket-delete"
+  bucket = "ryanh-github-recreated-bucket-delete"
 
   tags = {
     Owner       = "Ryan Hoofard"
