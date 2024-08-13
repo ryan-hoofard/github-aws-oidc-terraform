@@ -1,0 +1,6 @@
+# Request me for review when any terraform files are modified in a pull request or and changes to the .github directory
+# This is mainly for workflows and also protects the CODEOWNERS file from being changed
+# Must have repository setting enabled for requiring a review from a CODEOWNER to be enforced
+
+providers.tf @ryan-hoofard
+/.github/ @ryan-hoofard

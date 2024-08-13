@@ -2,15 +2,22 @@ name: terraform aws oidc workflow
 on:
   workflow_call:
     inputs:
+      environment:
+        required: true
+        type: string
       region:
         required: true
         type: string
+      apply:
+        required: true
+        type: boolean
     secrets:
-      role:
+      aws_role:
         required: true
 
 jobs:
   deploy:
+    # environment: ${{ inputs.apply && inputs.environment || 'tfplan' }}
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
@@ -23,12 +30,22 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
-          role-to-assume: ${{ secrets.role }}
+          role-to-assume: ${{ secrets.aws_role }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ inputs.region }}
 
+      - name: set bucket key based on repo name without "-terraform" suffix
+        run: echo "BUCKET_KEY=$(basename -s -terraform ${{ github.event.repository.name }})" >> $GITHUB_ENV
+
+      - name: set bucket name based on environment
+        run: echo "BUCKET_NAME=ryanh-github-oidc-terraform-test-${{ inputs.environment }}" >> $GITHUB_ENV
+
       - name: Terraform Init
-        run: terraform init
+        run: |
+          terraform init \
+          -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+          -backend-config="key=${{ env.BUCKET_KEY }}" \
+          -backend-config="region=${{ inputs.region }}"
 
       - name: Terraform Plan
         run: terraform plan

@@ -1,4 +1,4 @@
-name: terraform aws oidc workflow
+name: dev terraform w/ oidc
 on:
   push:
     branches:
@@ -14,6 +14,23 @@ jobs:
       id-token: write
       contents: read
     with:
-      region: "us-west-2"
-    secrets:
-      role: ${{ secrets.AWS_ROLE_DEV }}
+      region: us-west-2
+      environment: dev
+      apply: false
+    secrets: 
+      aws_role: ${{ secrets.AWS_ROLE_DEV }}
+
+  # dev-apply:
+  #   uses: ./.github/workflows/reusable-terraform-workflow.yml
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   with:
+  #     region: us-west-2
+  #     environment: dev
+  #     apply: true
+  #   secrets: 
+  #     aws_role: ${{ secrets.AWS_ROLE_DEV }}
+
+
+  
