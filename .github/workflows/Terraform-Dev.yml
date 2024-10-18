@@ -19,6 +19,19 @@ jobs:
       apply: false
     secrets: 
       aws_role: ${{ secrets.AWS_ROLE_DEV }}
+      
+  new-jwt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: configure aws creds
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_DEV }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ inputs.region }}
+          
+      - name: test connection
+        run: aws sts get-caller-identity
 
   # dev-apply:
   #   uses: ./.github/workflows/reusable-terraform-workflow.yml
