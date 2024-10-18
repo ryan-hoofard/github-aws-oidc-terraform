@@ -28,7 +28,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_DEV }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ inputs.region }}
+          aws-region: us-west-2
           
       - name: test connection
         run: aws sts get-caller-identity
