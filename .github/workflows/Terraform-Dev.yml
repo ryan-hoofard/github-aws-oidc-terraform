@@ -9,7 +9,7 @@ on:
 
 jobs:
   dev-deploy:
-    uses: ./.github/workflows/reusable-terraform-workflow.yml
+    uses: ryan-hoofard/github-aws-oidc-terraform/.github/workflows/reusable-terraform-workflow.yml@dev
     permissions:
       id-token: write
       contents: read
@@ -19,6 +19,22 @@ jobs:
       apply: false
     secrets: 
       aws_role: ${{ secrets.AWS_ROLE_DEV }}
+      
+  new-jwt:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: configure aws creds
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_DEV }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: us-west-2
+          
+      - name: test connection
+        run: aws sts get-caller-identity
 
   # dev-apply:
   #   uses: ./.github/workflows/reusable-terraform-workflow.yml
