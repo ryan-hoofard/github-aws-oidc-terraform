@@ -22,6 +22,9 @@ jobs:
       
   new-jwt:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: configure aws creds
         uses: aws-actions/configure-aws-credentials@v1.7.0
