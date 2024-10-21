@@ -14,23 +14,10 @@ jobs:
       id-token: write
       contents: read
     with:
-      region: us-west-2
+      region: us-east-1
       environment: dev
-      apply: false
-    secrets: 
-      aws_role: ${{ secrets.AWS_ROLE_DEV }}
+      role: arn:aws:iam::767397928267:role/ryanh-github-oidc-role-test
 
-  # dev-apply:
-  #   uses: ./.github/workflows/reusable-terraform-workflow.yml
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   with:
-  #     region: us-west-2
-  #     environment: dev
-  #     apply: true
-  #   secrets: 
-  #     aws_role: ${{ secrets.AWS_ROLE_DEV }}
 
 
   
