@@ -9,7 +9,7 @@ on:
 
 jobs:
   dev-deploy:
-    uses: ryan-hoofard/reusable-workflows/.github/workflows/terraform-aws.yml@main
+    uses: ryan-hoofard/reusable-workflows/.github/workflows/terraform-aws.yml@mainjj
     permissions:
       id-token: write
       contents: read
