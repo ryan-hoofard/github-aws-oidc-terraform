@@ -16,7 +16,7 @@ jobs:
     with:
       region: us-east-1
       environment: dev
-      role: arn:aws:iam::767397928267:role/ryanh-github-oidc-role-test
+      role: arn:aws:iam::381492128561:role/github-oidc
 
 
 
