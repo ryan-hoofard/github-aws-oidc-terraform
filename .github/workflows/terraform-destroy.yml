@@ -36,14 +36,14 @@ jobs:
         run: echo "BUCKET_KEY=$(basename -s -terraform ${{ github.event.repository.name }})" >> $GITHUB_ENV
 
       - name: set bucket name based on environment
-        run: echo "BUCKET_NAME=ryanh-github-oidc-terraform-${{ inputs.environment }}" >> $GITHUB_ENV
+        run: echo "BUCKET_NAME=ryanh-github-oidc-terraform-dev" >> $GITHUB_ENV
 
       - name: Terraform Init
         run: |
           terraform init \
           -backend-config="bucket=${{ env.BUCKET_NAME }}" \
           -backend-config="key=${{ env.BUCKET_KEY }}" \
-          -backend-config="region=${{ inputs.region }}"
+          -backend-config="region=us-east-1"
 
       - name: Terraform Apply
         if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
