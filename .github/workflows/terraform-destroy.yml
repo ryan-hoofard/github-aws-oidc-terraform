@@ -1,4 +1,4 @@
-name: terraform aws oidc workflow
+name: terraform destroy
 on:
   workflow_dispatch:
     inputs:
