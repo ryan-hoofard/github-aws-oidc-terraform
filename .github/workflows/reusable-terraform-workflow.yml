@@ -54,7 +54,10 @@ jobs:
           version: latest
 
       - name: Run OPA Tests
-        run: opa eval --data policy.rego --input tfplan.json "data.terraform.allow"
+        run: |
+          result="$(opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw)"
+          if [[ "$result" == "false" ]]; then
+             exit 1
 
       - name: Terraform Apply
         if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
