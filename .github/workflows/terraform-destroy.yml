@@ -1,0 +1,47 @@
+name: terraform aws oidc workflow
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+      region:
+        required: true
+        type: string
+      role:
+        required: true
+        type: string
+jobs:
+  deploy:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ inputs.role }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ inputs.region }}
+
+      - name: set bucket key based on repo name without "-terraform" suffix
+        run: echo "BUCKET_KEY=$(basename -s -terraform ${{ github.event.repository.name }})" >> $GITHUB_ENV
+
+      - name: set bucket name based on environment
+        run: echo "BUCKET_NAME=ryanh-github-oidc-terraform-${{ inputs.environment }}" >> $GITHUB_ENV
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+          -backend-config="key=${{ env.BUCKET_KEY }}" \
+          -backend-config="region=${{ inputs.region }}"
+
+      - name: Terraform Apply
+        if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
+        run: terraform destroy --auto-approve
