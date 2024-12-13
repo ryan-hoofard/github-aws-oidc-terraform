@@ -56,6 +56,7 @@ jobs:
       - name: Run OPA Tests
         run: |
           result="$(opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw)"
+          echo $result
           if [[ "$result" == "false" ]]; then
              exit 1
           fi
