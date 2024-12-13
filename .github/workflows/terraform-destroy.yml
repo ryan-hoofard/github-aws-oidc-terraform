@@ -3,17 +3,20 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        required: true
+        required: false
         type: string
       region:
-        required: true
+        required: false
         type: string
       role:
-        required: true
+        required: false
         type: string
 jobs:
   deploy:
-    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read 
+    environment: dev
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
