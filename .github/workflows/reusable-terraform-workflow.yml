@@ -58,7 +58,8 @@ jobs:
           result="$(opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw)"
           if [[ "$result" == "false" ]]; then
              exit 1
+          fi
 
-      - name: Terraform Apply
-        if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
-        run: terraform apply --auto-approve
+      # - name: Terraform Apply
+      #   if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
+      #   run: terraform apply --auto-approve
