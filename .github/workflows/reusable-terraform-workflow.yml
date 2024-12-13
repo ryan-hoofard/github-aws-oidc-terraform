@@ -43,7 +43,9 @@ jobs:
           -backend-config="region=${{ inputs.region }}"
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          terraform plan --out tfplan.binary
+          terraform show -json tfplan.binary > tfplan.json
 
       - name: Setup OPA
         uses: open-policy-agent/setup-opa@v2
@@ -52,7 +54,7 @@ jobs:
 
       - name: Run OPA Tests
         run: opa eval --data policy.rego --input tfplan.json "data.terraform.allow"
-        
+
       - name: Terraform Apply
         if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
         run: terraform apply --auto-approve
