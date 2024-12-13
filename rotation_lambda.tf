@@ -27,7 +27,7 @@ resource "aws_lambda_function" "rotation_lambda" {
 
   environment {
     variables = {
-      CFDISTROID = aws_cloudfront_distribution.cloudfront_distro.id
+      # CFDISTROID = aws_cloudfront_distribution.cloudfront_distro.id
       HEADERNAME = "x-origin-verify" # key/name of the header added to CloudFront. This will be checked in API authorizer (authorization Lambda)
       ORIGINURL  = aws_apigatewayv2_api.api_gateway.api_endpoint
     }
@@ -121,7 +121,7 @@ resource "aws_iam_policy" "rotation_lambda_policy" {
           "cloudfront:ListDistributions",
           "cloudfront:UpdateDistribution"
         ],
-        "Resource" : "${aws_cloudfront_distribution.cloudfront_distro.arn}",
+        "Resource" : "*",
         "Effect" : "Allow"
       }
     ]
