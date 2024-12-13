@@ -11,6 +11,7 @@ on:
       role:
         required: true
         type: string
+        
 jobs:
   deploy:
     environment: ${{ inputs.environment }}
