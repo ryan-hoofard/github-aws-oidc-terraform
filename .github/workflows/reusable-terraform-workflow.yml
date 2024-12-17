@@ -55,13 +55,22 @@ jobs:
 
       - name: Run OPA Tests
         run: |
+          cat tfplan.json
+          cat policy.rego
+          
+      - name: see results
+        run: |
+          opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw
           result="$(opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw)"
-          echo $result
+          
+      - name: echo result
+        run: echo $result
+        
+      - name: make decision
+        run: |
           if [[ "$result" == "false" ]]; then
              exit 1
           fi
-      - name: echo result
-        run: echo $result
 
       # - name: Terraform Apply
       #   if: github.ref_name == 'dev' || github.ref_name == 'qa' || github.ref_name == 'prod'
