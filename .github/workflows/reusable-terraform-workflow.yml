@@ -52,24 +52,12 @@ jobs:
         uses: open-policy-agent/setup-opa@v2
         with:
           version: latest
-
-      - name: Run OPA Tests
-        run: |
-          cat tfplan.json
-          cat policy.rego
           
-      - name: see results
-        run: |
-          opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw
-          
-      - name: echo result
+      - name: Run OPA eval
         run: |
           result=`opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw`
           echo $result
-        
-      - name: make decision
-        run: |
-          if [[ "$result" == "false" ]]; then
+          if [[ $result == "false" ]]; then
              exit 1
           fi
 
