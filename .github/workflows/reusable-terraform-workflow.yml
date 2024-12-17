@@ -61,10 +61,11 @@ jobs:
       - name: see results
         run: |
           opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw
-          result="$(opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw)"
           
       - name: echo result
-        run: echo $result
+        run: |
+          result=`opa eval --data policy.rego --input tfplan.json "data.terraform.allow" --format raw`
+          echo $result
         
       - name: make decision
         run: |
